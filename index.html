@@ -8,18 +8,15 @@
     body {
       margin: 0;
       height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      overflow: hidden;
       background: #F0509A;
     }
-
     img {
+      position: absolute;
       width: 200px;
       height: auto;
       animation: spin 4s linear infinite;
     }
-
     @keyframes spin {
       from {
         transform: rotate(0deg);
@@ -31,6 +28,45 @@
   </style>
 </head>
 <body>
-  <img src="sorry.png" />
+  <img src="sorry.png" id="logo" />
+  <script>
+    const logo = document.getElementById("logo");
+    let x = 100;
+    let y = 100;
+    let dx = 7;  // horizontal speed
+    let dy = 7;  // vertical speed
+    function animate() {
+      const width = logo.offsetWidth;
+      const height = logo.offsetHeight;
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      x += dx;
+      y += dy;
+      // Right edge
+      if (x + width >= screenWidth) {
+        x = screenWidth - width;
+        dx *= -1;
+      }
+      // Left edge
+      if (x <= 0) {
+        x = 0;
+        dx *= -1;
+      }
+      // Bottom edge
+      if (y + height >= screenHeight) {
+        y = screenHeight - height;
+        dy *= -1;
+      }
+      // Top edge
+      if (y <= 0) {
+        y = 0;
+        dy *= -1;
+      }
+      logo.style.left = x + "px";
+      logo.style.top = y + "px";
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 </body>
 </html>
